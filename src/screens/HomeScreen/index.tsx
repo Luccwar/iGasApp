@@ -5,7 +5,7 @@ const index = () => {
     return (
         <View>
             <Text style={{ fontSize: 24, alignSelf: 'center'}}>
-                Home, sweet home
+                iGas
             </Text>
         </View>
     )

@@ -3,9 +3,10 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import CustomInput from '../../components/CustomInput'
 import CustomButton from '../../components/CustomButton'
 import { useNavigation } from '@react-navigation/core'
+import { useForm } from 'react-hook-form'
 
 const SignUpScreen = () => {
-    const [code, setCode] = useState('');
+    const {control, handleSubmit, formState: {errors},} = useForm();
 
     const navigation = useNavigation();
 
@@ -25,8 +26,8 @@ const SignUpScreen = () => {
         <ScrollView showsVerticalScrollIndicator={true} >
             <View style={styles.root}>
                 <Text style={styles.title}> Create an Account </Text>
-                <CustomInput placeholder='Enter your Confirmation Code' value={code} setValue={setCode} />
-                <CustomButton text={'Confirm'} onPress={onConfirmPressed} type={'primary'} backgroundColor={''} textColor={''} />
+                <CustomInput name={'Code'} placeholder='Enter your Confirmation Code' control={control} rules={{required: 'Code is Required'}} />
+                <CustomButton text={'Confirm'} onPress={handleSubmit(onConfirmPressed)} type={'primary'} backgroundColor={''} textColor={''} />
                 <CustomButton text={"Resend Code"} onPress={onResendCodePressed} type={'secondary'} />
                 <CustomButton text={"Back to Sign In"} onPress={onBackToSignInPressed} type={'terciary'} />
             </View>

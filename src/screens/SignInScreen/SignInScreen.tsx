@@ -1,19 +1,22 @@
 import React, { useState } from 'react'
-import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView } from 'react-native'
+import { View, Text, TextInput, Image, StyleSheet, useWindowDimensions, ScrollView } from 'react-native'
 import CustomInput from '../../components/CustomInput'
 import CustomButton from '../../components/CustomButton'
 import SocialSignInButtons from '../../components/SocialSignInButtons/SocialSignInButtons'
 import { useNavigation } from '@react-navigation/native'
+import { useForm } from 'react-hook-form'
 
 const SignInScreen = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+
+    const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
     const {height} = useWindowDimensions();
     const navigation = useNavigation();
 
-    const onSignInPressed = () => {
-        console.warn('Sign In');
+    const {control, handleSubmit, formState: {errors},} = useForm();
+
+    const onSignInPressed = (data) => {
+        console.log(data);
         // Validade User
         navigation.navigate('Home');
     }
@@ -34,9 +37,10 @@ const SignInScreen = () => {
         <ScrollView showsVerticalScrollIndicator={true} >
             <View style={styles.root}>
                 <Image source={imgSource} style={[styles.logo, {height: height * 0.3}]} resizeMode="contain"></Image>
-                <CustomInput placeholder='Email' value={email} setValue={setEmail} />
-                <CustomInput placeholder='Password' value={password} setValue={setPassword} secureTextEntry />
-                <CustomButton text={'Sign In'} onPress={onSignInPressed} backgroundColor={''} textColor={''} />
+                <CustomInput name={'Email'} placeholder='Email' control={control} rules={{required: 'Your Email is Required', pattern: {value: EMAIL_REGEX, message: 'Please, insert a valid email'}}} />
+                <CustomInput name={'Password'} placeholder='Password' control={control} secureTextEntry rules={{required: 'Password is Required', minLength: {value: 3, message: 'Password should contain at least three characters'}}} />
+                
+                <CustomButton text={'Sign In'} onPress={handleSubmit(onSignInPressed)} backgroundColor={''} textColor={''} />
                 <CustomButton text={'Forgot Password?'} onPress={onForgotPasswordPressed} type={'terciary'} />
                 <SocialSignInButtons/>
                 <CustomButton text={"Don't Have an account? Create One"} onPress={onSignUpPressed} type={'terciary'} />
