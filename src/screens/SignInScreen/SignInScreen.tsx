@@ -6,14 +6,15 @@ import SocialSignInButtons from '../../components/SocialSignInButtons/SocialSign
 import { useNavigation } from '@react-navigation/native'
 import { useForm } from 'react-hook-form'
 
+import { Logo } from '../../components/Logo'
+
 const SignInScreen = () => {
 
     const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-    const {height} = useWindowDimensions();
     const navigation = useNavigation();
 
-    const {control, handleSubmit, formState: {errors},} = useForm();
+    const { control, handleSubmit, formState: { errors }, } = useForm();
 
     const onSignInPressed = (data) => {
         console.log(data);
@@ -30,19 +31,19 @@ const SignInScreen = () => {
         console.warn('Sign Up');
         navigation.navigate('SignUp');
     }
-    
-  
-    var imgSource = require('../../../assets/images/iGasLogo.PNG')
+
+
+    // var imgSource = require('../../../assets/images/iGasLogo.PNG')
     return (
         <ScrollView showsVerticalScrollIndicator={true} >
             <View style={styles.root}>
-                <Image source={imgSource} style={[styles.logo, {height: height * 0.3}]} resizeMode="contain"></Image>
-                <CustomInput name={'Email'} placeholder='Email' control={control} rules={{required: 'Your Email is Required', pattern: {value: EMAIL_REGEX, message: 'Please, insert a valid email'}}} />
-                <CustomInput name={'Password'} placeholder='Password' control={control} secureTextEntry rules={{required: 'Password is Required', minLength: {value: 3, message: 'Password should contain at least three characters'}}} />
-                
+                <Logo />
+                <CustomInput name={'Email'} placeholder='Email' control={control} rules={{ required: 'Your Email is Required', pattern: { value: EMAIL_REGEX, message: 'Please, insert a valid email' } }} />
+                <CustomInput name={'Password'} placeholder='Password' control={control} secureTextEntry rules={{ required: 'Password is Required', minLength: { value: 3, message: 'Password should contain at least three characters' } }} />
+
                 <CustomButton text={'Sign In'} onPress={handleSubmit(onSignInPressed)} backgroundColor={''} textColor={''} />
                 <CustomButton text={'Forgot Password?'} onPress={onForgotPasswordPressed} type={'terciary'} />
-                <SocialSignInButtons/>
+                <SocialSignInButtons />
                 <CustomButton text={"Don't Have an account? Create One"} onPress={onSignUpPressed} type={'terciary'} />
             </View>
         </ScrollView>
@@ -50,14 +51,9 @@ const SignInScreen = () => {
 }
 
 const styles = StyleSheet.create({
-    root:{
+    root: {
         alignItems: 'center',
         padding: 20,
-    },
-    logo:{
-        width: '70%',
-        maxWidth: 300,
-        maxHeight: 300,
     },
 });
 
