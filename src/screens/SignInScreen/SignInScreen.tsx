@@ -19,7 +19,7 @@ const SignInScreen = () => {
     const onSignInPressed = (data) => {
         console.log(data);
         // Validade User
-        navigation.navigate('Home');
+        navigation.navigate('Main');
     }
 
     const onForgotPasswordPressed = () => {
