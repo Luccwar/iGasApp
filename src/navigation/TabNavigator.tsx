@@ -9,8 +9,8 @@ import { SettingsScreen } from "../screens/SettingsScreen";
 
 const Tab = createBottomTabNavigator();
 
-export function TabNavigator() {
-    return <>
+const TabNavigator = () => {
+    return ( <>
         <Tab.Navigator>
             <Tab.Screen
                 options={{ tabBarIcon: ({ color, size }) => <Feather name="home" color={color} size={size} /> }}
@@ -24,4 +24,7 @@ export function TabNavigator() {
             />
         </Tab.Navigator>
     </>
+    )
 }
+
+export default TabNavigator

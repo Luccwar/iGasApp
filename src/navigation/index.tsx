@@ -22,7 +22,7 @@ const Navigation = () =>{
             <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
             <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Main" component={Main} />
+            <Stack.Screen name="Main" component={Main} options={{headerShown: false}} />
             </Stack.Navigator>
         </NavigationContainer>
     )

@@ -1,7 +1,7 @@
-import { DrawerNavigator } from "./navigation/DrawerNavigator";
+import { TabNavigator } from "./navigation/DrawerNavigator";
 
 export default function Routes() {
     return (
-            <DrawerNavigator />
+            <TabNavigator />
     );
 }
