@@ -65,9 +65,14 @@ function DrawerNavigatorHome() {
                 component={AdressManage}
             />
             <Drawer.Screen
-                options={{ drawerIcon: ({ color, size }) => <Feather name="log-out" color={color} size={size} /> }}
+                options={{ drawerIcon: ({ color, size }) => <Feather name="log-out" color={color} size={size} />}}
                 name="Sair"
                 component={SignInScreen}
+            />
+            <Drawer.Screen
+                options={{ drawerItemStyle: { display: "none" } }}
+                name="Criação de Endereço"
+                component={AdressCreate}
             />
         </Drawer.Navigator>
     </>

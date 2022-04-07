@@ -37,8 +37,8 @@ const SignUpScreen = () => {
         <ScrollView showsVerticalScrollIndicator={true} >
             <View style={styles.root}>
                 <Text style={styles.title}> Create an Account </Text>
-                <CustomInput name={'FullName'} placeholder='Full Name' control={control} rules={{required: 'Your Full Name is Required'}} />
-                <CustomInput name={'Email'} placeholder='Email' control={control} rules={{required: 'Your Email is Required', pattern: {value: EMAIL_REGEX, message: 'Your email is invalid.'}}} />
+                <CustomInput name={'FullName'} placeholder='Full Name' control={control} rules={{required: 'Your Full Name is Required'}} />"
+                <CustomInput name={'Email'} placeholder='Email' control={control} rules={{required: 'Your Email is Required', pattern: {value: EMAIL_REGEX, message: 'Your email is invalid.'}}} keyboardType={"email-address"} />
                 <CustomInput name={'Password'} placeholder='Password' control={control} secureTextEntry rules={{required: 'Your Password is Required', minLength: {value: 3, message: 'Password should contain at least three characters'}}} />
                 <CustomInput name={'PasswordRepeat'} placeholder='Repeat Password' control={control} secureTextEntry rules={{required: 'Repeating your Password is Required', minLength: {value: 3, message: 'Password should contain at least three characters'}, validate: value => value == pwd ? true : 'Password does not match'}} />
                 <CustomInput name={'CPF'} placeholder='CPF' control={control} rules={{required: 'Your CPF is Required'}} />
