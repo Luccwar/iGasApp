@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useForm } from 'react-hook-form'
 
 import { Logo } from '../../components/Logo'
+import { Layout } from '@ui-kitten/components'
 
 const SignInScreen = () => {
 
@@ -36,16 +37,16 @@ const SignInScreen = () => {
     // var imgSource = require('../../../assets/images/iGasLogo.PNG')
     return (
         <ScrollView showsVerticalScrollIndicator={true} >
-            <View style={styles.root}>
+            <Layout style={styles.root}>
                 <Logo />
-                <CustomInput name={'Email'} placeholder='Email' control={control} rules={{ required: 'Your Email is Required', pattern: { value: EMAIL_REGEX, message: 'Please, insert a valid email' } }} keyboardType={"email-address"} />
-                <CustomInput name={'Password'} placeholder='Password' control={control} secureTextEntry rules={{ required: 'Password is Required', minLength: { value: 3, message: 'Password should contain at least three characters' } }} />
+                <CustomInput customStyle={styles.input} name={'Email'} placeholder='Email' control={control} rules={{ required: 'Your Email is Required', pattern: { value: EMAIL_REGEX, message: 'Please, insert a valid email' } }} keyboardType={"email-address"} />
+                <CustomInput customStyle={styles.input} name={'Password'} placeholder='Password' control={control} secureTextEntry rules={{ required: 'Password is Required', minLength: { value: 3, message: 'Password should contain at least three characters' } }} />
 
                 <CustomButton text={'Sign In'} onPress={handleSubmit(onSignInPressed)} backgroundColor={''} textColor={''} />
                 <CustomButton text={'Forgot Password?'} onPress={onForgotPasswordPressed} type={'terciary'} />
-                <SocialSignInButtons />
+                {/* <SocialSignInButtons /> */}
                 <CustomButton text={"Don't Have an account? Create One"} onPress={onSignUpPressed} type={'terciary'} />
-            </View>
+            </Layout>
         </ScrollView>
     )
 }
@@ -55,6 +56,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
     },
+    input: {
+        marginTop: 5,
+        marginBottom: 5
+    }
 });
 
 export default SignInScreen

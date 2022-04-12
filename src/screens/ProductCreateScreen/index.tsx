@@ -44,4 +44,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         width: '100%',
     },
+    input: {
+        margin: 5
+    }
 });
