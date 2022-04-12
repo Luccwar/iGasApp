@@ -42,10 +42,10 @@ const SignInScreen = () => {
                 <CustomInput customStyle={styles.input} name={'Email'} placeholder='Email' control={control} rules={{ required: 'Your Email is Required', pattern: { value: EMAIL_REGEX, message: 'Please, insert a valid email' } }} keyboardType={"email-address"} />
                 <CustomInput customStyle={styles.input} name={'Password'} placeholder='Password' control={control} secureTextEntry rules={{ required: 'Password is Required', minLength: { value: 3, message: 'Password should contain at least three characters' } }} />
 
-                <CustomButton text={'Sign In'} onPress={handleSubmit(onSignInPressed)} backgroundColor={''} textColor={''} />
-                <CustomButton text={'Forgot Password?'} onPress={onForgotPasswordPressed} type={'terciary'} />
+                <CustomButton customStyle={styles.input} text={'Sign In'} onPress={handleSubmit(onSignInPressed)} block/>
+                <CustomButton customStyle={styles.input} text={'Forgot Password?'} onPress={onForgotPasswordPressed} status="info" appearance="outline" block />
                 {/* <SocialSignInButtons /> */}
-                <CustomButton text={"Don't Have an account? Create One"} onPress={onSignUpPressed} type={'terciary'} />
+                <CustomButton customStyle={styles.input} text={"Don't Have an account? Create One"} onPress={onSignUpPressed} status="info" appearance="ghost" block/>
             </Layout>
         </ScrollView>
     )

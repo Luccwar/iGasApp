@@ -1,8 +1,8 @@
-import { post } from "./api"
+import { post, setAuthorization } from "./api"
 
 class AuthService {
-    async register (name, email, password, document) {
-        return post('auth/register', {
+    async register(name: string, email: string, password: string, document: string) {
+        const result = await post('auth/register', {
             name,
             email,
             password,
@@ -10,14 +10,30 @@ class AuthService {
             documentType: 'cpf',
             area: 'distributer'
         })
+
+        if (result.code === 200) {
+            setAuthorization(result.data.accessToken)
+        }
+
+        return result
     }
 
-    async login (email, password) {
-        return post('auth/login', {
+    async login(email: string, password: string) {
+        const result = await post('auth/login', {
             email,
             password,
             area: 'distributer'
         })
+
+        if (result.code === 200) {
+            setAuthorization(result.data.accessToken)
+        }
+
+        return result
+    }
+
+    async logout() {
+        setAuthorization(null)
     }
 }
 

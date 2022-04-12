@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, ScrollView } from 'react-native'
+import { View, StyleSheet, ScrollView, Alert } from 'react-native'
 import CustomInput from '../../components/CustomInput'
 import CustomButton from '../../components/CustomButton'
 import SocialSignUpButtons from '../../components/SocialSignUpButtons/SocialSignUpButtons'
@@ -14,31 +14,36 @@ const SignUpScreen = () => {
 
     const navigation = useNavigation();
 
-    const { control, handleSubmit, formState: { errors }, watch } = useForm( /*{ defaultValues: { email: 'Default Email' }, }*/);
-    const pwd = watch('Password')
+    const { control, handleSubmit, formState: { errors }, watch, setError } = useForm( /*{ defaultValues: { email: 'Default Email' }, }*/);
+    const pwd = watch('password')
 
-    const onRegisterPressed = async (data) => {
-        console.warn(data);
-
-        try {
-
-            const result = await AuthService.register(
-                data.FullName,
-                data.Email,
-                data.Password,
-                data.CPF,
-            )
-            navigation.navigate('ConfirmEmail');
-            
-        } catch (e) {
-            console.error(e)
-        }
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
 
+    const onRegisterPressed = (data) => {
+        setIsSubmitting(true)
+        // console.warn(data);
+        AuthService.register(
+            data.name,
+            data.email,
+            data.password,
+            data.cpf,
+        ).then(result => {
+            if (result.code != 200) {
+                Alert.alert('Ops!', 'There are some errors in the form')
+                result.errors.forEach(error => {
+                    const fieldName = error.property === 'document' ? 'cpf' : error.property
+                    setError(fieldName, { message: Object.values(error.constraints)[0] as string })
+                })
+            } else {
+                navigation.navigate('ConfirmEmail');
+            }
+            setIsSubmitting(false)
+        })
     }
 
     const onLoginPressed = () => {
-        console.warn('Login');
+        // console.warn('Login');
         navigation.navigate('SignIn');
     }
 
@@ -54,13 +59,52 @@ const SignUpScreen = () => {
         <ScrollView showsVerticalScrollIndicator={true} >
             <View style={styles.root}>
                 <Text style={styles.title}> Create an Account </Text>
-                <CustomInput customStyle={styles.input} name={'FullName'} placeholder='Full Name' control={control} rules={{ required: 'Your Full Name is Required' }} />
-                <CustomInput customStyle={styles.input} name={'Email'} placeholder='Email' control={control} rules={{ required: 'Your Email is Required', pattern: { value: EMAIL_REGEX, message: 'Your email is invalid.' } }} keyboardType={"email-address"} />
-                <CustomInput customStyle={styles.input} name={'Password'} placeholder='Password' control={control} secureTextEntry rules={{ required: 'Your Password is Required', minLength: { value: 3, message: 'Password should contain at least three characters' } }} />
-                <CustomInput customStyle={styles.input} name={'PasswordRepeat'} placeholder='Repeat Password' control={control} secureTextEntry rules={{ required: 'Repeating your Password is Required', minLength: { value: 3, message: 'Password should contain at least three characters' }, validate: value => value == pwd ? true : 'Password does not match' }} />
-                <CustomInput customStyle={styles.input} name={'CPF'} placeholder='CPF' control={control} rules={{ required: 'Your CPF is Required' }} />
+                <CustomInput
+                    customStyle={styles.input}
+                    name={'name'}
+                    placeholder='Full Name'
+                    control={control}
+                    rules={{ required: 'Your Full Name is Required' }}
+                />
+                <CustomInput
+                    customStyle={styles.input}
+                    name={'email'}
+                    placeholder='Email'
+                    control={control}
+                    rules={{ required: 'Your Email is Required', pattern: { value: EMAIL_REGEX, message: 'Your email is invalid.' } }}
+                    keyboardType={"email-address"}
+                />
+                <CustomInput
+                    customStyle={styles.input}
+                    name={'password'}
+                    placeholder='Password'
+                    control={control}
+                    secureTextEntry
+                    rules={{ required: 'Your Password is Required', minLength: { value: 3, message: 'Password should contain at least three characters' } }}
+                />
+                <CustomInput
+                    customStyle={styles.input}
+                    name={'repeat_password'}
+                    placeholder='Repeat Password'
+                    control={control}
+                    secureTextEntry
+                    rules={{ required: 'Repeating your Password is Required', minLength: { value: 3, message: 'Password should contain at least three characters' }, validate: value => value == pwd ? true : 'Password does not match' }}
+                />
+                <CustomInput
+                    customStyle={styles.input}
+                    name={'cpf'}
+                    placeholder='CPF'
+                    control={control}
+                    rules={{ required: 'Your CPF is Required' }}
+                />
 
-                <CustomButton text={'Register'} onPress={handleSubmit(onRegisterPressed)} backgroundColor={''} textColor={''} />
+                <CustomButton
+                    customStyle={styles.input}
+                    text={'Register'}
+                    onPress={handleSubmit(onRegisterPressed)}
+                    loading={isSubmitting}
+                    block
+                />
                 {/* <Text style={styles.text}>
                     By registering, you confirm that you accept our 
                     <Text style={styles.link} onPress={onTermsOfUsePressed}>Terms of Use</Text> 
@@ -68,7 +112,14 @@ const SignUpScreen = () => {
                     <Text style={styles.link} onPress={onPrivacyPolicyPressed}>Privacy Policy</Text>
                 .</Text> */}
                 {/* <SocialSignUpButtons/> */}
-                <CustomButton text={"Already Have an account? Login here."} onPress={onLoginPressed} type={'terciary'} />
+                <CustomButton
+                    customStyle={styles.input}
+                    text={"Already Have an account? Login here."}
+                    onPress={onLoginPressed}
+                    status="info"
+                    appearance="ghost"
+                    block
+                />
             </View>
         </ScrollView>
     )
